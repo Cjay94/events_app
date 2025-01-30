@@ -14,7 +14,7 @@ const Footer = () => {
                         height={38}
                     />
                 </Link>
-
+                <p>Designed & Curated by {`</CJD>`}</p>
                 <p>{new Date().getFullYear()} Evently. All Rights reserved.</p>
             </div>
         </footer>
