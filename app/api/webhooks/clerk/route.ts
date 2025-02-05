@@ -51,7 +51,6 @@ export async function POST(req: Request) {
 
   // Create CRUD Function for clerk
 
-  const { id } = evt.data;
   const eventType = evt.type;
 
   //C: Create clerk user in our database
@@ -63,10 +62,10 @@ export async function POST(req: Request) {
     const user = {
       clerkId: id,
       email: email_addresses[0].email_address,
-      username: username!,
-      firstName: first_name!,
-      lastName: last_name!,
-      photo: image_url,
+      username: username || "",
+      firstName: first_name || "",
+      lastName: last_name || "",
+      photo: image_url || "",
     };
 
     const newUser = await createUser(user);
@@ -92,10 +91,10 @@ export async function POST(req: Request) {
 
     const user = {
       clerkId: id,
-      username: username!,
-      firstName: first_name!,
-      lastName: last_name!,
-      photo: image_url,
+      username: username || "",
+      firstName: first_name || "",
+      lastName: last_name || "",
+      photo: image_url || "",
     };
 
     const updatedUser = await updateUser(id, user);
