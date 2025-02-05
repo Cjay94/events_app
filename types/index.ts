@@ -14,3 +14,14 @@ export type UpdateUserParams = {
   username: string;
   photo: string;
 };
+
+// ====== EVENT PARAMS  ====== //
+export type EventFormProps = {
+  userId: string;
+  type: "Create" | "Update";
+};
+
+// ====== CATEGORY PARAMS  ====== //
+export type CreateCategoryParams = {
+  categoryName: string;
+};
