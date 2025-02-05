@@ -16,7 +16,10 @@ const CreateEvent = () => {
             </section>
 
             <section className='wrapper my-8'>
-                <EventForm type="Create" userId={userId} />
+                <EventForm
+                    userId={userId}
+                    type="Create"
+                />
             </section>
         </>
     )

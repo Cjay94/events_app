@@ -18,6 +18,7 @@ export const createCategory = async ({
     handleError(error);
   }
 };
+
 export const getAllCategories = async () => {
   try {
     await connectToDatabase();
