@@ -12,7 +12,10 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Evently",
-  description: "Making Every Event Seamless and Special."
+  description: "Making Every Event Seamless and Special.",
+  icons: {
+    icon: '/assets/icons/favicon.ico'
+  }
 };
 
 export default function RootLayout({

@@ -42,3 +42,8 @@ export type CreateEventParams = {
 export type CreateCategoryParams = {
   categoryName: string;
 };
+
+// ====== URL QUERY PARAMS  ====== //
+export type SearchParamProps = {
+  params: { id: string };
+};
