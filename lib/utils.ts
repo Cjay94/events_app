@@ -11,3 +11,51 @@ export const handleError = (error: unknown) => {
 };
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
+
+export const formatDateTime = (dateString: Date) => {
+  const dateTimeOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", // abbreviated weekday name (e.g., 'Mon')
+    month: "short", // abbreviated month name (e.g., 'Oct')
+    day: "numeric", // numeric day of the month (e.g., '25')
+    hour: "numeric", // numeric hour (e.g., '08')
+    minute: "numeric", // numeric minute (e.g., '30')
+    hour12: false, // use 24-hour clock (South Africa standard)
+    timeZone: "Africa/Johannesburg", // South African time zone
+  };
+
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: "short", // abbreviated weekday name (e.g., 'Mon')
+    month: "short", // abbreviated month name (e.g., 'Oct')
+    year: "numeric", // numeric year (e.g., '2023')
+    day: "numeric", // numeric day of the month (e.g., '25')
+    timeZone: "Africa/Johannesburg",
+  };
+
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: "numeric", // numeric hour (e.g., '08')
+    minute: "numeric", // numeric minute (e.g., '30')
+    hour12: false, // 24-hour format (South African standard)
+    timeZone: "Africa/Johannesburg",
+  };
+
+  const formattedDateTime: string = new Date(dateString).toLocaleString(
+    "en-ZA", // South African English locale
+    dateTimeOptions
+  );
+
+  const formattedDate: string = new Date(dateString).toLocaleString(
+    "en-ZA",
+    dateOptions
+  );
+
+  const formattedTime: string = new Date(dateString).toLocaleString(
+    "en-ZA",
+    timeOptions
+  );
+
+  return {
+    dateTime: formattedDateTime,
+    dateOnly: formattedDate,
+    timeOnly: formattedTime,
+  };
+};
