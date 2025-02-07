@@ -1,11 +1,17 @@
 "use server";
-import { CreateEventParams } from "@/types";
+
 import { connectToDatabase } from "../database";
 import User from "../database/models/user.model";
 import Event from "../database/models/event.model";
 import Category from "../database/models/category.model";
 import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
+import {
+  CreateEventParams,
+  DeleteEventParams,
+  GetAllEventsParams,
+  GetRelatedEventsByCategoryParams,
+} from "@/types";
 
 const populateEvent = async (query: any) => {
   return query
@@ -44,6 +50,37 @@ export const createEvent = async ({
   }
 };
 
+// GET ALL EVENTS
+export const getAllEvents = async ({
+  query,
+  limit = 6,
+  page,
+  category,
+}: GetAllEventsParams) => {
+  try {
+    await connectToDatabase();
+
+    const conditions = {};
+
+    const skipAmount = (Number(page) - 1) * limit;
+
+    const eventsQuery = Event.find(conditions)
+      .sort({ createdAt: "desc" })
+      .skip(skipAmount)
+      .limit(limit);
+
+    const events = await populateEvent(eventsQuery);
+    const eventsCount = await Event.countDocuments(conditions);
+
+    return {
+      data: JSON.parse(JSON.stringify(events)),
+      totalPages: Math.ceil(eventsCount / limit),
+    };
+  } catch (error) {
+    handleError(error);
+  }
+};
+
 // GET ONE EVENT BY ID
 export const getEventById = async (eventId: string) => {
   try {
@@ -53,6 +90,27 @@ export const getEventById = async (eventId: string) => {
     if (!event) throw new Error("Event not found");
 
     return JSON.parse(JSON.stringify(event));
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+// GET RELATED EVENTS: EVENTS WITH SAME CATEGORY
+export const getRelatedEventsByCategory = async ({
+  categoryId,
+  eventId,
+  limit = 3,
+  page = 1,
+}: GetRelatedEventsByCategoryParams) => {};
+
+// DELETE
+export const deleteEvent = async ({ eventId, path }: DeleteEventParams) => {
+  try {
+    await connectToDatabase();
+
+    const deletedEvent = await Event.findByIdAndDelete(eventId);
+
+    if (deletedEvent) revalidatePath(path);
   } catch (error) {
     handleError(error);
   }

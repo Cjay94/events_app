@@ -38,6 +38,25 @@ export type CreateEventParams = {
   path: string;
 };
 
+export type GetAllEventsParams = {
+  query: string;
+  category: string;
+  limit: number;
+  page: number;
+};
+
+export type GetRelatedEventsByCategoryParams = {
+  categoryId: string;
+  eventId: string;
+  limit?: number;
+  page: number | string;
+};
+
+export type DeleteEventParams = {
+  eventId: string;
+  path: string;
+};
+
 // ====== CATEGORY PARAMS  ====== //
 export type CreateCategoryParams = {
   categoryName: string;
@@ -46,4 +65,5 @@ export type CreateCategoryParams = {
 // ====== URL QUERY PARAMS  ====== //
 export type SearchParamProps = {
   params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
