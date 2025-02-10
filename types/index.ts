@@ -16,11 +16,6 @@ export type UpdateUserParams = {
 };
 
 // ====== EVENT PARAMS  ====== //
-export type EventFormProps = {
-  userId: string;
-  type: "Create" | "Update";
-};
-
 export type CreateEventParams = {
   userId: string;
   event: {
@@ -38,6 +33,12 @@ export type CreateEventParams = {
   path: string;
 };
 
+export type GetEventsByUserParams = {
+  userId: string;
+  limit?: number;
+  page: number;
+};
+
 export type GetAllEventsParams = {
   query: string;
   category: string;
@@ -50,6 +51,24 @@ export type GetRelatedEventsByCategoryParams = {
   eventId: string;
   limit?: number;
   page: number | string;
+};
+
+export type UpdateEventParams = {
+  userId: string;
+  event: {
+    _id: string;
+    title: string;
+    imageUrl: string;
+    description: string;
+    location: string;
+    startDateTime: Date;
+    endDateTime: Date;
+    categoryId: string;
+    price: string;
+    isFree: boolean;
+    url: string;
+  };
+  path: string;
 };
 
 export type DeleteEventParams = {

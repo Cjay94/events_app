@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 
-const EventsDetails = async ({ params: { id }, searchParams }: SearchParamProps) => {
+const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) => {
 
     const event = await getEventById(id);
 
@@ -122,6 +122,7 @@ const EventsDetails = async ({ params: { id }, searchParams }: SearchParamProps)
             {/* EVENTS with the same category */}
             <section className="wrapper my-8 flex flex-col gap-8 md:gap-12">
                 <h2 className="h2-bold">Related Events</h2>
+
                 <Collection
                     data={relatedEvents?.data}
                     emptyTitle="No Events Found"
@@ -136,4 +137,4 @@ const EventsDetails = async ({ params: { id }, searchParams }: SearchParamProps)
     )
 }
 
-export default EventsDetails
+export default EventDetails

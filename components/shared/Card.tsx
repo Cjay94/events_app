@@ -17,15 +17,13 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId as string;
 
-    const isEventCreator = userId === event.organizer._id.toString();
+    const isEventCreator = userId === event.organizer?._id.toString();
 
     return (
         <div className="group relative flex min-h-[380px] w-full max-w-[400px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg md:min-h-[438px]">
             <Link
                 href={`/events/${event._id}`}
-                style={{
-                    backgroundImage: `url(${event.imageUrl})`
-                }}
+                style={{ backgroundImage: `url(${event.imageUrl})` }}
                 className="flex-center flex-grow bg-gray-50 bg-cover bg-center text-grey-500"
             />
 
@@ -52,10 +50,9 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
                             {event.isFree ? 'FREE' : `$${event.price}`}
                         </span>
                         <p className="p-semibold-14 w-min rounded-full bg-grey-500/10 px-4 py-1 text-grey-500 line-clamp-1">
-                            {event.category.name}
+                            {event.category?.name}
                         </p>
-                    </div>
-                }
+                    </div>}
 
                 <p className="p-medium-16 p-medium-18 text-grey-500">
                     {formatDateTime(event.startDateTime).dateTime}
@@ -69,7 +66,7 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
 
                 <div className="flex-between w-full">
                     <p className="p-medium-14 md:p-medium-16 text-primary-500">
-                        {event.organizer.firstName} {event.organizer.lastName}
+                        {event.organizer?.firstName} {event.organizer?.lastName}
                     </p>
 
                     {hasOrderLink && (

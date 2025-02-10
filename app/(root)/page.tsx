@@ -13,7 +13,6 @@ export default async function Home() {
     limit: 6
   })
 
-
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
