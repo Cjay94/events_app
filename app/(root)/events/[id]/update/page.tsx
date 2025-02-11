@@ -8,8 +8,9 @@ type UpdateEventProps = {
     };
 };
 
-const UpdateEvent = async ({ params }: UpdateEventProps) => {
-    const id = params.id;  // Access `id` inside the function instead of destructuring in the argument list
+const UpdateEvent = async ({ params }: { params: Promise<UpdateEventProps> }) => {
+    const id = (await params).params.id
+
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId as string;
     const event = await getEventById(id);
