@@ -1,15 +1,21 @@
 import Collection from "@/components/shared/Collection";
+import Search from "@/components/shared/Search";
 import { Button } from "@/components/ui/button";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<{ page?: string; query?: string; category?: string }> }) {
+  const { page, query, category } = await searchParams;
+
+  const pageNumber = Number(page) || 1;
+  const searchText = query || '';
+  const categoryText = category || '';
 
   const events = await getAllEvents({
-    query: '',
-    category: '',
-    page: 1,
+    query: searchText,
+    category: categoryText,
+    page: pageNumber,
     limit: 6
   })
 
@@ -50,7 +56,7 @@ export default async function Home() {
         <h2 className="h2-bold">Trust by <br /> Thousands of Events</h2>
 
         <div className="flex w-full flex-col md:flex-row gap-5">
-          (TODO: Search Component) <br />
+          <Search placeholder="Search Event..." /> <br />
           (TODO: CategoryFilter)
         </div>
 
@@ -60,8 +66,8 @@ export default async function Home() {
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
           limit={6}
-          page={1}
-          totalPages={2}
+          page={pageNumber}
+          totalPages={events?.totalPages}
         />
       </section>
     </>

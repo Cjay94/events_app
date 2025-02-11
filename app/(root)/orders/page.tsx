@@ -1,7 +1,8 @@
+import React from 'react'
 import { getOrdersByEvent } from '@/lib/actions/order.actions';
 import { IOrderItem } from '@/lib/database/models/order.model';
 import { formatDateTime, formatPrice } from '@/lib/utils';
-import React from 'react'
+import Search from '@/components/shared/Search';
 
 const OrdersPage = async ({ searchParams }: { searchParams: Promise<{ eventId?: string; query?: string }> }) => {
 
@@ -19,7 +20,7 @@ const OrdersPage = async ({ searchParams }: { searchParams: Promise<{ eventId?: 
             </section>
 
             <section className="wrapper mt-8">
-                {/* <Search/> */}
+                <Search placeholder="Search buyer name..." />
             </section>
 
             <section className="wrapper overflow-x-auto">

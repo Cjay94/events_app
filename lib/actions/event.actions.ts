@@ -14,6 +14,7 @@ import {
   GetRelatedEventsByCategoryParams,
   GetEventsByUserParams,
 } from "@/types";
+import { getCategoryByName } from "./category.actions";
 
 const populateEvent = async (query: any) => {
   return query
@@ -76,10 +77,20 @@ export const getAllEvents = async ({
   try {
     await connectToDatabase();
 
-    const conditions = {};
+    const titleCondition = query
+      ? { title: { $regex: query, $options: "i" } }
+      : {};
+    const categoryCondition = category
+      ? await getCategoryByName(category)
+      : null;
+    const conditions = {
+      $and: [
+        titleCondition,
+        categoryCondition ? { category: categoryCondition._id } : {},
+      ],
+    };
 
     const skipAmount = (Number(page) - 1) * limit;
-
     const eventsQuery = Event.find(conditions)
       .sort({ createdAt: "desc" })
       .skip(skipAmount)
