@@ -91,6 +91,14 @@ export type CheckoutOrderParams = {
   buyerId: string;
 };
 
+export type CreateOrderParams = {
+  stripeId: string;
+  eventId: string;
+  buyerId: string;
+  totalAmount: string;
+  createdAt: Date;
+};
+
 // ====== URL QUERY PARAMS  ====== //
 export type SearchParamProps = {
   params: { id: string };
