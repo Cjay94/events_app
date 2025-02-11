@@ -1,16 +1,26 @@
 import Collection from '@/components/shared/Collection';
 import { Button } from '@/components/ui/button'
 import { getEventsByUser } from '@/lib/actions/event.actions';
+import { getOrdersByUser } from '@/lib/actions/order.actions';
+import { IOrder } from '@/lib/database/models/order.model';
 import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link'
 
 import React from 'react'
 
-const ProfilePage = async () => {
+const ProfilePage = async ({ searchParams }: { searchParams: Promise<{ ordersPage?: string; eventsPage?: string }> }) => {
     const { sessionClaims } = await auth();
     const userId = sessionClaims?.userId as string;
 
-    const organizedEvents = await getEventsByUser({ userId, page: 1 })
+    const { ordersPage, eventsPage } = await searchParams;
+
+    const ordersPageNumber = Number(ordersPage) || 1;
+    const eventsPageNumber = Number(eventsPage) || 1;
+
+    const orders = await getOrdersByUser({ userId, page: ordersPageNumber })
+    const orderedEvents = orders?.data.map((order: IOrder) => order.event) || [];
+
+    const organizedEvents = await getEventsByUser({ userId, page: eventsPageNumber })
 
     return (
         <>
@@ -24,6 +34,19 @@ const ProfilePage = async () => {
                         </Link>
                     </Button>
                 </div>
+            </section>
+
+            <section className="wrapper my-8">
+                <Collection
+                    data={orderedEvents}
+                    emptyTitle="No event tickets purchased yet"
+                    emptyStateSubtext="No worries - plenty of exciting events to explore!"
+                    collectionType="My_Tickets"
+                    limit={3}
+                    page={ordersPageNumber}
+                    urlParamName="ordersPage"
+                    totalPages={orders?.totalPages}
+                />
             </section>
 
             {/* Events Organized */}
@@ -44,10 +67,10 @@ const ProfilePage = async () => {
                     emptyTitle="No events have been created yet"
                     emptyStateSubtext="Go create some now"
                     collectionType="Events_Organized"
-                    limit={6}
-                    page={1}
+                    limit={3}
+                    page={eventsPageNumber}
                     urlParamName="eventsPage"
-                    totalPages={2}
+                    totalPages={organizedEvents?.totalPages}
                 />
             </section>
         </>

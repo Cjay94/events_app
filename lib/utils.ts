@@ -59,3 +59,13 @@ export const formatDateTime = (dateString: Date) => {
     timeOnly: formattedTime,
   };
 };
+
+export const formatPrice = (price: string) => {
+  const amount = parseFloat(price);
+  const formattedPrice = new Intl.NumberFormat("en-ZA", {
+    style: "currency",
+    currency: "ZAR",
+  }).format(amount);
+
+  return formattedPrice;
+};
